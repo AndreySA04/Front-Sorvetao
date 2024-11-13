@@ -1,5 +1,5 @@
-import Header from "../../components/header";
-import { $Button, $Container, $InputContainer, $Label, $Select, $SideContainer, $SmallContainer } from "./styles";
+import Header from "@/components/header"
+import { $Container, $Input, $InputContainer, $Label, $SideContainer } from "./styles";
 import {
     Table,
     TableBody,
@@ -9,8 +9,7 @@ import {
     TableRow,
   } from "@/components/ui/table"  
 
-const Home = () => {
-
+const Report = () => {
     const dados = [
         {
           valorVenda: "$250.00",
@@ -37,22 +36,11 @@ const Home = () => {
             <Header />
             <$Container>
                 <$SideContainer>
-                    <$SmallContainer>
-                        <$InputContainer>
-                            <$Label>Loja Selecionada</$Label>
-                            <$Select>
-                                <option value="1">Loja 1</option>
-                                <option value="2">Loja 2</option>
-                            </$Select>
-                        </$InputContainer>
-                    </$SmallContainer>
-                    <$SmallContainer>
-                        <$Button>Anexar CPLUG</$Button>
-                        <$Button>CONCILIAR</$Button>
-                    </$SmallContainer>
-                    <$SmallContainer>
-                        <$Button>Gerar Relatório</$Button>
-                    </$SmallContainer>
+                    <$InputContainer>
+                        <$Label>Buscar Relatório</$Label>
+                        <$Input type="text">
+                        </$Input>
+                    </$InputContainer>
                 </$SideContainer>
                 <Table className="bg-gray-100 border-separate border-spacing-0">
                     <TableHeader>
@@ -85,4 +73,4 @@ const Home = () => {
     )
 }
 
-export default Home;
+export default Report;
