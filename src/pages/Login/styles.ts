@@ -48,7 +48,7 @@ const $Input = styled.input`
 
 const $TogglePasswordButton = styled.span`
   position: absolute;
-  top: 54%;
+  top: 52%;
   right: 10px;
   transform: translateY(-50%);
   cursor: pointer;

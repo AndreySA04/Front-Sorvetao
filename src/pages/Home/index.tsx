@@ -7,9 +7,36 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-  } from "@/components/ui/table"  
+  } from "@/components/ui/table"
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Home = () => {
+
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedFile = e.target.files?.[0];
+        if (selectedFile) {
+          await uploadFile(selectedFile);
+          e.target.value = ''; 
+        }
+    };
+    
+    const uploadFile = async (file: File) => {
+        const formData = new FormData();
+        formData.append('file', file);
+    
+        try {
+          const response = await axios.post('http://localhost:3000/upload', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+    
+          toast.success(response.data.message);
+        } catch (error) {
+          toast.error('Erro ao salvar o arquivo.');
+        }
+    };
 
     const dados = [
         {
@@ -47,7 +74,14 @@ const Home = () => {
                         </$InputContainer>
                     </$SmallContainer>
                     <$SmallContainer>
-                        <$Button>Anexar CPLUG</$Button>
+                    <input
+                        type="file"
+                        id="file1"
+                        className="hidden"
+                        accept=".csv" 
+                        onChange={handleFileChange}
+                    />
+                        <$Button onClick={() => document.getElementById('file1')?.click()}>Anexar CPLUG</$Button>
                         <$Button>CONCILIAR</$Button>
                     </$SmallContainer>
                     <$SmallContainer>
