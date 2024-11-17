@@ -36,14 +36,8 @@ const $HeaderButton = styled.button`
     }
 `;
 
-const $HeaderIconUser = styled.div`
-    height: 100%;
-    border-radius: 50%;
-`;
-
 export {
     $HeaderContainer,
     $ButtonContainer,
     $HeaderButton,
-    $HeaderIconUser,
 }

@@ -1,5 +1,5 @@
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { $Button, $ButtonContainer, $Container, $FormContainer, $ImageForm, $Input, $InputContainer, $Label } from "../Login/styles";
+import { $Button, $ButtonContainer, $Container, $FormContainer, $ImageForm, $Input, $InputContainer, $Label, $Link, $LinkContainer } from "../Login/styles";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import sorvetao from "../../assets/images/sorvetao.png";
@@ -31,6 +31,10 @@ const Forgot = () => {
                 </$InputContainer>
                 <$ButtonContainer>
                     <$Button type="submit" onClick={() => navigate("/")}>CADASTRAR NOVA SENHA</$Button>
+                    <$LinkContainer>
+                        <p>Deseja voltar ao login?</p>
+                        <$Link onClick={() => navigate("/")}>Clique aqui</$Link>
+                    </$LinkContainer>
                 </$ButtonContainer>
             </$FormContainer>
         </$Container>
