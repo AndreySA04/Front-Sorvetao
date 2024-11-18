@@ -28,10 +28,11 @@ const Login = () => {
 
             const { token } = response.data;
             localStorage.setItem("authToken", token);
+            localStorage.setItem("userData", data.email);
 
             toast.success("Login realizado com sucesso!", {
                 position: "top-right",
-                autoClose: 3000, // Tempo de exibição do toast
+                autoClose: 3000,
             });
 
             navigate("/conciliar");

@@ -1,44 +1,112 @@
 import { $Button, $ButtonContainer, $Container, $FormContainer, $ImageForm, $Input, $InputContainer, $Label } from "./styles";
 import sorvetao from "../../assets/images/sorvetao.png";
-import { useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { $TogglePasswordButton } from "./styles";
+import { useEffect, useState } from "react";
 import Header from "@/components/header";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const User = () => {
-    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [userData, setUserData] = useState({
+        name: "",
+        email: "",
+    });
 
-    const togglePasswordVisibility = () => {
-        setPasswordVisible(!passwordVisible);
+    const [updatedData, setUpdatedData] = useState({
+        name: "",
+        email: "",
+    });
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const data = localStorage.getItem("userData");
+
+            if (!data) {
+                setLoading(false);
+                return;
+            }
+
+            try {
+                setLoading(true);
+                const response = await axios.get(`http://localhost:3000/users/${data}`);
+                setUserData({
+                    name: response.data.name,
+                    email: response.data.email,
+                });
+                setUpdatedData({
+                    name: response.data.name,
+                    email: response.data.email,
+                });
+            } catch (err: any) {
+                toast.error("Erro ao buscar dados.", {
+                    position: "top-right",
+                    autoClose: 3000,
+                });
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchUserData();
+    }, []);
+
+    const handleUpdate = async () => {
+        try {
+            setLoading(true);
+            await axios.patch(`http://localhost:3000/users/${userData.email}`, updatedData);
+            setUserData(updatedData);
+            localStorage.setItem("userData", updatedData.email); 
+            toast.success("Dados atualizados com sucesso!", {
+                position: "top-right",
+                autoClose: 3000,
+            });
+        } catch (err: any) {
+            toast.error("Erro ao atualizar dados.", {
+                position: "top-right",
+                autoClose: 3000,
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setUpdatedData((prev) => ({ ...prev, [name]: value }));
     };
 
     return (
         <>
             <Header />
             <$Container>
-            <$FormContainer>
-                <$ImageForm src={sorvetao} />
-                <$InputContainer>
-                    <$Label>NOME DE USUÁRIO</$Label>
-                    <$Input type="text" />
-                </$InputContainer>
-                <$InputContainer>
-                    <$Label>EMAIL</$Label>
-                    <$Input type="email" />
-                </$InputContainer>
-                <$InputContainer>
-                    <$Label>SENHA</$Label>
-                    <$Input type={passwordVisible ? 'text' : 'password'}/>
-                    <$TogglePasswordButton onClick={togglePasswordVisibility}>
-                        {passwordVisible ? <FaEyeSlash /> : <FaEye />}
-                    </$TogglePasswordButton>
-                </$InputContainer>
-                <$ButtonContainer>
-                    <$Button>ATUALIZAR</$Button>
-                </$ButtonContainer>
-            </$FormContainer>
-        </$Container>
-    </>
+                {loading && <p>Carregando...</p>}
+                {!loading && (
+                    <$FormContainer>
+                        <$ImageForm src={sorvetao} />
+                        <$InputContainer>
+                            <$Label>NOME DE USUÁRIO</$Label>
+                            <$Input
+                                type="text"
+                                name="name"
+                                value={updatedData.name}
+                                onChange={handleInputChange}
+                            />
+                        </$InputContainer>
+                        <$InputContainer>
+                            <$Label>EMAIL</$Label>
+                            <$Input
+                                type="email"
+                                name="email"
+                                value={updatedData.email}
+                                onChange={handleInputChange}
+                            />
+                        </$InputContainer>
+                        <$ButtonContainer>
+                            <$Button type="button" onClick={handleUpdate}>ATUALIZAR</$Button>
+                        </$ButtonContainer>
+                    </$FormContainer>
+                )}
+            </$Container>
+        </>
     );
 };
 
