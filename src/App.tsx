@@ -8,19 +8,56 @@ import Home from "./pages/Home";
 import Report from "./pages/Report";
 import Config from "./pages/Config";
 import User from "./pages/User";
-import ProtectedRoute from "./components/protectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
+    <BrowserRouter
+      future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
+    >
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/cadastrar" element={<Register />} />
+        <Route
+          path="/cadastrar"
+          element={
+            <ProtectedRoute>
+              <Register />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/esqueceu" element={<Forgot />} />
-        <Route path="/conciliar" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-        <Route path="/relatorio" element={<ProtectedRoute><Report /></ProtectedRoute>} />
-        <Route path="/configuracao" element={<ProtectedRoute><Config /></ProtectedRoute>} />
-        <Route path="/user" element={<ProtectedRoute><User /></ProtectedRoute>} />
+        <Route
+          path="/conciliar"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/relatorio"
+          element={
+            <ProtectedRoute>
+              <Report />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/configuracao"
+          element={
+            <ProtectedRoute>
+              <Config />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user"
+          element={
+            <ProtectedRoute>
+              <User />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
