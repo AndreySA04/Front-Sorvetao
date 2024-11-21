@@ -1,14 +1,14 @@
 import styled from "styled-components";
 
 const $Container = styled.div`
-    height: 100%;
-    padding: 20px;
+  height: 100%;
+  padding: 20px;
 `;
 
 const $SideContainer = styled.div`
-    width: 100%;
-    height: 14vh;
-    display: flex;
+  width: 100%;
+  height: 14vh;
+  display: flex;
 `;
 
 const $InputContainer = styled.div`
@@ -19,24 +19,18 @@ const $InputContainer = styled.div`
 `;
 
 const $Input = styled.input`
-    width: 100%;
-    height: 55px;
-    font-size: 22px;
-    padding-left: 5px;
-    border-radius: 12px;
-    background-color: #BEBEBE;
-    border: none;
+  width: 100%;
+  height: 55px;
+  font-size: 22px;
+  padding-left: 5px;
+  border-radius: 12px;
+  background-color: #bebebe;
+  border: none;
 `;
 
 const $Label = styled.label`
-    font-size: 22px;
-    font-weight: bold;
+  font-size: 22px;
+  font-weight: bold;
 `;
 
-export {
-    $Container,
-    $SideContainer,
-    $InputContainer,
-    $Input,
-    $Label,
-};
+export { $Container, $SideContainer, $InputContainer, $Input, $Label };

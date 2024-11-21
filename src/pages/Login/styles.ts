@@ -9,13 +9,15 @@ const $Container = styled.div`
 `;
 
 const $FormContainer = styled.form`
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   width: 450px;
   height: 520px;
   border-radius: 20px;
   padding: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
   align-items: center;
   justify-content: space-around;
 `;
@@ -67,9 +69,9 @@ const $Button = styled.button`
   height: 5.5vh;
   font-size: 20px;
   border: none;
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
   border-radius: 10px;
-  
+
   &:hover:enabled {
     opacity: 0.8;
     cursor: pointer;
@@ -84,7 +86,7 @@ const $LinkContainer = styled.div`
 `;
 
 const $Link = styled.a`
-  color: #60247A;
+  color: #60247a;
   font-size: 15px;
   cursor: pointer;
 `;
@@ -101,4 +103,4 @@ export {
   $Button,
   $LinkContainer,
   $Link,
-}
+};

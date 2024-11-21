@@ -9,7 +9,7 @@ const $Container = styled.div`
 `;
 
 const $FormContainer = styled.form`
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   width: 450px;
@@ -67,9 +67,9 @@ const $Button = styled.button`
   height: 5.5vh;
   font-size: 20px;
   border: none;
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
   border-radius: 10px;
-  
+
   &:hover:enabled {
     opacity: 0.8;
     cursor: pointer;
@@ -86,4 +86,4 @@ export {
   $TogglePasswordButton,
   $ButtonContainer,
   $Button,
-}
+};

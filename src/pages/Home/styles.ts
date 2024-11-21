@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 const $Container = styled.div`
-    height: 100%;
-    padding: 20px;
+  height: 100%;
+  padding: 20px;
 `;
 
 const $Select = styled.select`
@@ -13,7 +13,7 @@ const $Select = styled.select`
   border-radius: 12px;
   font-size: 20px;
   font-weight: bold;
-  background-color: #BEBEBE;
+  background-color: #bebebe;
 
   option {
     padding: 10px;
@@ -23,21 +23,21 @@ const $Select = styled.select`
 `;
 
 const $SideContainer = styled.div`
-    width: 100%;
-    height: 35vh;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  width: 100%;
+  height: 35vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const $SmallContainer = styled.div`
-    width: 350px;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 40px;
+  width: 350px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 40px;
 `;
 
 const $InputContainer = styled.div`
@@ -49,38 +49,38 @@ const $InputContainer = styled.div`
 `;
 
 const $Input = styled.input`
-    width: 100%;
-    height: 55px;
-    font-size: 20px;
-    padding-left: 5px;
-    border-radius: 12px;
-    background-color: #BEBEBE;
-    border: none;
+  width: 100%;
+  height: 55px;
+  font-size: 20px;
+  padding-left: 5px;
+  border-radius: 12px;
+  background-color: #bebebe;
+  border: none;
 `;
 
 const $Label = styled.label`
-    font-size: 22px;
-    font-weight: bold;
+  font-size: 22px;
+  font-weight: bold;
 `;
 
 const $Button = styled.button`
-    width: 70%;
-    height: 65px;
-    font-size: 25px;
-    font-weight: bold;
-    background-color: #BEBEBE;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
+  width: 70%;
+  height: 65px;
+  font-size: 25px;
+  font-weight: bold;
+  background-color: #bebebe;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
 `;
 
 export {
-    $Container,
-    $Select,
-    $SideContainer,
-    $SmallContainer,
-    $Input,
-    $Label,
-    $InputContainer,
-    $Button,
-}
+  $Container,
+  $Select,
+  $SideContainer,
+  $SmallContainer,
+  $Input,
+  $Label,
+  $InputContainer,
+  $Button,
+};

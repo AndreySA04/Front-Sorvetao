@@ -1,15 +1,15 @@
 import styled from "styled-components";
 
 const $Container = styled.div`
-    height: 100%;
-    padding: 20px;
+  height: 100%;
+  padding: 20px;
 `;
 
 const $SideContainer = styled.div`
-    width: 100%;
-    height: 20vh;
-    display: flex;
-    gap: 1.5vw;
+  width: 100%;
+  height: 20vh;
+  display: flex;
+  gap: 1.5vw;
 `;
 
 const $Select = styled.select`
@@ -20,7 +20,7 @@ const $Select = styled.select`
   border-radius: 12px;
   font-size: 20px;
   font-weight: bold;
-  background-color: #BEBEBE;
+  background-color: #bebebe;
 
   option {
     padding: 10px;
@@ -37,38 +37,38 @@ const $InputContainer = styled.div`
 `;
 
 const $Input = styled.input`
-    width: 60%;
-    height: 55px;
-    font-size: 20px;
-    padding-left: 5px;
-    border-radius: 12px;
-    background-color: #BEBEBE;
-    border: none;
+  width: 60%;
+  height: 55px;
+  font-size: 20px;
+  padding-left: 5px;
+  border-radius: 12px;
+  background-color: #bebebe;
+  border: none;
 `;
 
 const $Label = styled.label`
-    font-size: 22px;
-    font-weight: bold;
+  font-size: 22px;
+  font-weight: bold;
 `;
 
 const $Button = styled.button`
-    width: 250px;
-    height: 65px;
-    font-size: 25px;
-    font-weight: bold;
-    margin-top: 30px;
-    background-color: #BEBEBE;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
+  width: 250px;
+  height: 65px;
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 30px;
+  background-color: #bebebe;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
 `;
 
 export {
-    $Container,
-    $SideContainer,
-    $InputContainer,
-    $Input,
-    $Label,
-    $Select,
-    $Button,
-}
+  $Container,
+  $SideContainer,
+  $InputContainer,
+  $Input,
+  $Label,
+  $Select,
+  $Button,
+};
