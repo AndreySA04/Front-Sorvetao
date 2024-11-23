@@ -18,10 +18,8 @@ const Config = () => {
           <$InputContainer>
             <$Label>Selecione a Loja</$Label>
             <$Select>
-              <option value="1">Loja 1</option>
-              <option value="2">Loja 2</option>
-              <option value="3">Loja 3</option>
-              <option value="4">Loja 4</option>
+              <option value={undefined}></option>
+              <option value={13381369}>Loja Teste</option>
             </$Select>
           </$InputContainer>
           <$InputContainer>
