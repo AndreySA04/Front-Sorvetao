@@ -69,12 +69,24 @@ const $Button = styled.button`
   height: 5.5vh;
   font-size: 20px;
   border: none;
-  background-color: #d9d9d9;
+  background-color: #FFC107; /* Laranja padrão */
   border-radius: 10px;
+  color: #ffffff; /* Texto branco */
+  transition: all 0.3s ease;
 
+  /* Hover: fundo roxo com efeito de elevação */
   &:hover:enabled {
+    background-color: #9c27b0; /* Roxo */
     opacity: 0.8;
     cursor: pointer;
+    transform: translateY(-3px); /* Leve efeito de elevação */
+  }
+
+  /* Foco: destaque com borda roxa */
+  &:focus {
+    outline: none;
+    border: 2px solid #9c27b0; /* Borda roxa */
+    box-shadow: 0px 0px 10px rgba(156, 39, 176, 0.6); /* Sombra roxa */
   }
 `;
 

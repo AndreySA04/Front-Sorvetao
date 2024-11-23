@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import {
   $Button,
   $ButtonContainer,
@@ -7,8 +6,6 @@ import {
   $Input,
   $InputContainer,
   $Label,
-  $Link,
-  $LinkContainer,
 } from "../Login/styles";
 import { useForm } from "react-hook-form";
 import sorvetao from "../../assets/images/sorvetao.png";
@@ -26,7 +23,6 @@ type RegisterFormData = {
 };
 
 const Register = () => {
-  const navigate = useNavigate();
   const { handleSubmit, register, reset } = useForm<RegisterFormData>();
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -44,7 +40,6 @@ const Register = () => {
         });
 
         reset();
-        navigate("/");
       }
     } catch (error) {
       toast.error("Erro ao cadastrar. Tente novamente.", {

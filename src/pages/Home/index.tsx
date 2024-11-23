@@ -17,26 +17,32 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import api from "@/utils/api";
+import downloadExcel from "@/utils/excelFile";
 import { formatDateFromBrasil } from "@/utils/formatDate";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
 type conciliateData = {
-  vVenda: string | number;
+  vVenda: number;
   vReal: number;
   data: string;
   taxa: number;
   pagamento: string;
   bandeira: string;
-  conciliado: string;
+  conciliado: boolean;
 };
 
 const Home = () => {
-  const [data, setData] = useState<conciliateData[]>();
+  const [reportData, setReportData] = useState<conciliateData[]>();
+  const [selectedStore, setSelectedStore] = useState<
+    number | string | undefined
+  >();
+  const [isFileSelect, setIsFileSelect] = useState<boolean>(false);
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       await uploadFile(selectedFile);
+      setIsFileSelect(true);
       e.target.value = "";
     }
   };
@@ -60,12 +66,12 @@ const Home = () => {
 
   const conciliateFile = async () => {
     try {
-      const response = await api.post("/report/conciliate", {
+      const response = await api.post("/conciliate", {
         tempFile: "vendas.csv",
       });
 
       if (Array.isArray(response.data)) {
-        setData(response.data);
+        setReportData(response.data);
         toast.success("Dados conciliados com sucesso!");
       } else {
         toast.error("Formato de dados inesperado.");
@@ -75,6 +81,14 @@ const Home = () => {
     }
   };
 
+  const downloadReport = () => {
+    if (!reportData || reportData.length === 0) {
+      toast.error("Não há dados para exportar.");
+      return;
+    }
+    downloadExcel(reportData, "ConciliateReport");
+  };
+
   return (
     <>
       <Header />
@@ -82,10 +96,12 @@ const Home = () => {
         <$SideContainer>
           <$SmallContainer>
             <$InputContainer>
-              <$Label>Loja Selecionada</$Label>
-              <$Select>
-                <option value="1">Loja 1</option>
-                <option value="2">Loja 2</option>
+              <$Label>Selecione a Loja</$Label>
+              <$Select
+                onChange={(e) => setSelectedStore(e.currentTarget.value)}
+              >
+                <option value={undefined}></option>
+                <option value={13381369}>Loja Teste</option>
               </$Select>
             </$InputContainer>
           </$SmallContainer>
@@ -97,50 +113,61 @@ const Home = () => {
               accept=".csv"
               onChange={handleFileChange}
             />
-            <$Button onClick={() => document.getElementById("file1")?.click()}>
+            <$Button
+              disabled={!selectedStore}
+              onClick={() => document.getElementById("file1")?.click()}
+            >
               Anexar CPLUG
             </$Button>
-            <$Button onClick={() => conciliateFile()}>CONCILIAR</$Button>
+            <$Button disabled={!isFileSelect} onClick={() => conciliateFile()}>
+              CONCILIAR
+            </$Button>
           </$SmallContainer>
           <$SmallContainer>
-            <$Button>Gerar Relatório</$Button>
+            <$Button disabled={!reportData} onClick={downloadReport}>
+              Gerar Relatório
+            </$Button>
           </$SmallContainer>
         </$SideContainer>
-        {data && (
-          <Table className="bg-gray-100 border-separate border-spacing-0">
-            <TableHeader>
-              <TableRow>
-                <TableHead>Valor Venda</TableHead>
-                <TableHead>Valor Real</TableHead>
-                <TableHead>Data</TableHead>
-                <TableHead>Taxa</TableHead>
-                <TableHead>Método Pagamento</TableHead>
-                <TableHead>Bandeira</TableHead>
-                <TableHead>Conciliado</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data.map((item, index) => (
-                <TableRow key={index}>
-                  <TableCell>{item.vVenda}</TableCell>
-                  <TableCell>{item.vReal}</TableCell>
-                  <TableCell>{formatDateFromBrasil(item.data)}</TableCell>
-                  <TableCell>{`${item.taxa}%`}</TableCell>
-                  <TableCell>{item.pagamento}</TableCell>
-                  <TableCell>{item.bandeira}</TableCell>
-                  <TableCell
-                    className={
-                      item.conciliado === "Não"
-                        ? "text-red-600"
-                        : "text-lime-600"
-                    }
-                  >
-                    {item.conciliado}
-                  </TableCell>
+        {reportData && (
+          <div className="overflow-x-auto max-h-[62vh] overflow-y-auto">
+            <Table className="bg-gray-100 border-separate border-spacing-0 table-auto">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Valor Venda</TableHead>
+                  <TableHead>Valor Real</TableHead>
+                  <TableHead>Data</TableHead>
+                  <TableHead>Taxa</TableHead>
+                  <TableHead>Método Pagamento</TableHead>
+                  <TableHead>Bandeira</TableHead>
+                  <TableHead>Conciliado</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {reportData.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      {item.vVenda === 0 ? "?" : item.vVenda}
+                    </TableCell>
+                    <TableCell>{item.vReal}</TableCell>
+                    <TableCell>{formatDateFromBrasil(item.data)}</TableCell>
+                    <TableCell>{`${item.taxa}%`}</TableCell>
+                    <TableCell>{item.pagamento}</TableCell>
+                    <TableCell>{item.bandeira}</TableCell>
+                    <TableCell
+                      className={
+                        item.conciliado === false
+                          ? "text-red-600"
+                          : "text-lime-600"
+                      }
+                    >
+                      {item.conciliado === true ? "Sim" : "Não"}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         )}
       </$Container>
     </>

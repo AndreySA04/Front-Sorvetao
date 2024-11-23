@@ -1,9 +1,11 @@
 import Header from "@/components/header";
 import {
+  $Button,
   $Container,
-  $Input,
+  $DateInput,
   $InputContainer,
   $Label,
+  $Select,
   $SideContainer,
 } from "./styles";
 import {
@@ -14,28 +16,56 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useState } from "react";
+import { formatDateFromBrasil } from "@/utils/formatDate";
+import api from "@/utils/api";
+import { toast } from "react-toastify";
+
+type conciliateData = {
+  vVenda: number;
+  vReal: number;
+  data: string;
+  taxa: number;
+  pagamento: string;
+  bandeira: string;
+  conciliado: boolean;
+};
 
 const Report = () => {
-  const dados = [
-    {
-      valorVenda: "$250.00",
-      valorReal: "$235.00",
-      data: "12/11/2024",
-      taxa: 0.02,
-      metodoPagamento: "Cartão de Crédito",
-      bandeira: "Mastercard",
-      conciliado: "Sim",
-    },
-    {
-      valorVenda: "$300.00",
-      valorReal: "$290.00",
-      data: "13/11/2024",
-      taxa: 0.03,
-      metodoPagamento: "Débito",
-      bandeira: "Visa",
-      conciliado: "Não",
-    },
-  ];
+  const [reportData, setReportData] = useState<conciliateData[]>();
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [selectedStore, setSelectedStore] = useState<
+    number | string | undefined
+  >();
+
+  const handleStartDateChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setStartDate(event.target.value);
+  };
+  const handleEndDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEndDate(event.target.value);
+  };
+
+  const handleGetReport = async () => {
+    try {
+      const response = await api.post("/conciliate/getReport", {
+        loja: Number(selectedStore),
+        initDate: startDate,
+        endDate: endDate,
+      });
+
+      if (Array.isArray(response.data)) {
+        setReportData(response.data);
+        toast.success("Dados encontrados com sucesso!");
+      } else {
+        toast.error("Formato de dados inesperado.");
+      }
+    } catch (error) {
+      toast.error("Erro ao procurar os dados.");
+    }
+  };
 
   return (
     <>
@@ -43,42 +73,79 @@ const Report = () => {
       <$Container>
         <$SideContainer>
           <$InputContainer>
-            <$Label>Buscar Relatório</$Label>
-            <$Input type="text"></$Input>
+            <$Label>Selecione a Loja</$Label>
+            <$Select onChange={(e) => setSelectedStore(e.currentTarget.value)}>
+              <option value={undefined}></option>
+              <option value={13381369}>Loja Teste</option>
+            </$Select>
+          </$InputContainer>
+          <$InputContainer>
+            <$Label>Data Inicial</$Label>
+            <$DateInput
+              type="date"
+              value={startDate}
+              onChange={handleStartDateChange}
+              placeholder="Selecione a data"
+            />
+          </$InputContainer>
+          <$InputContainer>
+            <$Label>Data Final</$Label>
+            <$DateInput
+              type="date"
+              value={endDate}
+              onChange={handleEndDateChange}
+              placeholder="Selecione a data"
+            />
+          </$InputContainer>
+          <$InputContainer>
+            <$Button
+              disabled={!startDate || !endDate || !selectedStore}
+              onClick={handleGetReport}
+            >
+              Buscar Relatório
+            </$Button>
           </$InputContainer>
         </$SideContainer>
-        <Table className="bg-gray-100 border-separate border-spacing-0">
-          <TableHeader>
-            <TableRow>
-              <TableHead>Valor Venda</TableHead>
-              <TableHead>Valor Real</TableHead>
-              <TableHead>Data</TableHead>
-              <TableHead>Taxa</TableHead>
-              <TableHead>Método Pagamento</TableHead>
-              <TableHead>Bandeira</TableHead>
-              <TableHead>Conciliado</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {dados.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell>{item.valorVenda}</TableCell>
-                <TableCell>{item.valorReal}</TableCell>
-                <TableCell>{item.data}</TableCell>
-                <TableCell>{`${item.taxa * 100}%`}</TableCell>
-                <TableCell>{item.metodoPagamento}</TableCell>
-                <TableCell>{item.bandeira}</TableCell>
-                <TableCell
-                  className={
-                    item.conciliado === "Não" ? "text-red-600" : "text-lime-600"
-                  }
-                >
-                  {item.conciliado}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        {reportData && (
+          <div className="overflow-x-auto max-h-[73vh] overflow-y-auto">
+            <Table className="bg-gray-100 border-separate border-spacing-0 table-auto">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Valor Venda</TableHead>
+                  <TableHead>Valor Real</TableHead>
+                  <TableHead>Data</TableHead>
+                  <TableHead>Taxa</TableHead>
+                  <TableHead>Método Pagamento</TableHead>
+                  <TableHead>Bandeira</TableHead>
+                  <TableHead>Conciliado</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {reportData.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      {item.vVenda === 0 ? "?" : item.vVenda}
+                    </TableCell>
+                    <TableCell>{item.vReal}</TableCell>
+                    <TableCell>{formatDateFromBrasil(item.data)}</TableCell>
+                    <TableCell>{`${item.taxa}%`}</TableCell>
+                    <TableCell>{item.pagamento}</TableCell>
+                    <TableCell>{item.bandeira}</TableCell>
+                    <TableCell
+                      className={
+                        item.conciliado === false
+                          ? "text-red-600"
+                          : "text-lime-600"
+                      }
+                    >
+                      {item.conciliado === true ? "Sim" : "Não"}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        )}
       </$Container>
     </>
   );
