@@ -119,7 +119,7 @@ const Home = () => {
             >
               Anexar CPLUG
             </$Button>
-            <$Button disabled={!isFileSelect} onClick={() => conciliateFile()}>
+            <$Button disabled={!isFileSelect || !selectedStore} onClick={() => conciliateFile()}>
               CONCILIAR
             </$Button>
           </$SmallContainer>
