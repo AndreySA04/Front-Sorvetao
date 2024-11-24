@@ -69,7 +69,11 @@ const Register = () => {
               {...register("password", { required: true })}
             />
             <$TogglePasswordButton onClick={togglePasswordVisibility}>
-              {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+              {passwordVisible ? (
+                <FaEye color="#9c27b0" />
+              ) : (
+                <FaEyeSlash color="#9c27b0" />
+              )}
             </$TogglePasswordButton>
           </$InputContainer>
           <$ButtonContainer>
