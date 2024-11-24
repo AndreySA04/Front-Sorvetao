@@ -41,9 +41,19 @@ const $Input = styled.input`
   width: 100%;
   height: 40px;
   font-size: 18px;
-  border: 2px solid #000000;
-  padding-left: 3px;
+  border: 2px solid #9c27b0; /* Borda roxa */
+  background-color: #f3e5f5; /* Fundo roxo claro */
+  padding-left: 10px;
   border-radius: 8px;
+  color: #4a0072; /* Texto roxo escuro */
+  transition: all 0.3s ease;
+
+  /* Foco: destaque com borda e sombra roxas */
+  &:focus {
+    outline: none;
+    border: 2px solid #7b1fa2; /* Borda roxa mais intensa */
+    box-shadow: 0 0 5px rgba(123, 31, 162, 0.6); /* Sombra roxa */
+  }
 `;
 
 const $TogglePasswordButton = styled.span`
@@ -67,14 +77,13 @@ const $Button = styled.button`
   height: 5.5vh;
   font-size: 20px;
   border: none;
-  background-color: #FFC107; /* Laranja e amarelo vibrante */
+  background-color: #9c27b0; /* Laranja e amarelo vibrante */
   border-radius: 10px;
   color: #ffffff; /* Texto branco */
   transition: all 0.3s ease;
 
   /* Hover: fundo roxo com efeito de elevação */
   &:hover:enabled {
-    background-color: #9c27b0; /* Roxo */
     opacity: 0.8;
     cursor: pointer;
     transform: translateY(-3px); /* Leve efeito de elevação */

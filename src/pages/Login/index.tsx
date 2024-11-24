@@ -78,7 +78,11 @@ const Login = () => {
             {...register("password", { required: "A senha é obrigatória" })}
           />
           <$TogglePasswordButton onClick={togglePasswordVisibility}>
-            {passwordVisible ? <FaEye /> : <FaEyeSlash />}
+            {passwordVisible ? (
+              <FaEye color="#9c27b0" />
+            ) : (
+              <FaEyeSlash color="#9c27b0" />
+            )}
           </$TogglePasswordButton>
           <$Link onClick={() => navigate("esqueceu")}>Esqueceu a senha?</$Link>
         </$InputContainer>
