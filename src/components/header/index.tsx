@@ -37,12 +37,12 @@ const Header = () => {
         >
           RELATÓRIO
         </$HeaderButton>
-        <$HeaderButton
+        {/* <$HeaderButton
           onClick={() => navigate("/configuracao")}
           active={isActiveRoute("/configuracao")}
         >
           CONFIGURAÇÃO
-        </$HeaderButton>
+        </$HeaderButton> */}
       </$ButtonContainer>
       <DropdownMenu>
         <DropdownMenuTrigger>

@@ -33,6 +33,7 @@ type conciliateData = {
 
 const Report = () => {
   const [reportData, setReportData] = useState<conciliateData[]>();
+  const [loading, setLoading] = useState<boolean>(false);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [selectedStore, setSelectedStore] = useState<
@@ -49,6 +50,7 @@ const Report = () => {
   };
 
   const handleGetReport = async () => {
+    setLoading(true);
     try {
       const response = await api.post("/conciliate/getReport", {
         loja: Number(selectedStore),
@@ -64,6 +66,8 @@ const Report = () => {
       }
     } catch (error) {
       toast.error("Erro ao procurar os dados.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -106,6 +110,9 @@ const Report = () => {
             </$Button>
           </$InputContainer>
         </$SideContainer>
+        {loading && (
+          <div>Carregando Dados...</div>
+        )}
         {reportData && (
           <div className="overflow-x-auto max-h-[73vh] overflow-y-auto">
             <Table className="bg-gray-100 border-separate border-spacing-0 table-auto">
@@ -121,10 +128,10 @@ const Report = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {reportData.map((item, index) => (
+                {reportData.map((item: any, index) => (
                   <TableRow key={index}>
                     <TableCell>
-                      {item.vVenda === 0 ? "?" : item.vVenda}
+                      {item.vVenda === "0" ? "?" : item.vVenda}
                     </TableCell>
                     <TableCell>{item.vReal}</TableCell>
                     <TableCell>{formatDateFromBrasil(item.data)}</TableCell>

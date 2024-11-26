@@ -41,10 +41,22 @@ const Register = () => {
 
         reset();
       }
-    } catch (error) {
-      toast.error("Erro ao cadastrar. Tente novamente.", {
-        position: "top-right",
-      });
+    } catch (error: any) {
+      console.log(error.response.data.message);
+      const errorMessage = error.response?.data?.message || "Erro inesperado.";
+      if (errorMessage === "Dados inválidos") {
+        toast.error("A senha deve ter no mínimo 6 caracteres.", {
+          position: "top-right",
+        });
+      } else if(errorMessage === "Usuário já existe") {
+        toast.error("Este email já está sendo utilizado por outro usuário.", {
+          position: "top-right",
+        });
+      } else {
+        toast.error("Erro ao cadastrar. Tente novamente.", {
+          position: "top-right",
+        });
+      }
     }
   };
 

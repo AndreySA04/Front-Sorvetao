@@ -34,6 +34,7 @@ type conciliateData = {
 
 const Home = () => {
   const [reportData, setReportData] = useState<conciliateData[]>();
+  const [loading, setLoading] = useState<boolean>(false);
   const [selectedStore, setSelectedStore] = useState<
     number | string | undefined
   >();
@@ -65,6 +66,7 @@ const Home = () => {
   };
 
   const conciliateFile = async () => {
+    setLoading(true)
     try {
       const response = await api.post("/conciliate", {
         tempFile: "vendas.csv",
@@ -73,11 +75,14 @@ const Home = () => {
       if (Array.isArray(response.data)) {
         setReportData(response.data);
         toast.success("Dados conciliados com sucesso!");
+        setIsFileSelect(false);
       } else {
         toast.error("Formato de dados inesperado.");
       }
     } catch (error) {
       toast.error("Erro ao conciliar os dados.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -86,7 +91,7 @@ const Home = () => {
       toast.error("Não há dados para exportar.");
       return;
     }
-    downloadExcel(reportData, "ConciliateReport");
+    downloadExcel(reportData, "Relatório_Conciliação");
   };
 
   return (
@@ -129,6 +134,9 @@ const Home = () => {
             </$Button>
           </$SmallContainer>
         </$SideContainer>
+        {loading && (
+          <div>Carregando Dados...</div>
+        )}
         {reportData && (
           <div className="overflow-x-auto max-h-[62vh] overflow-y-auto">
             <Table className="bg-gray-100 border-separate border-spacing-0 table-auto">
